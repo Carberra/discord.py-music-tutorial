@@ -28,6 +28,7 @@ class NoVoiceChannel(commands.CommandError):
 class QueueIsEmpty(commands.CommandError):
     pass
 
+
 class NoTracksFound(commands.CommandError):
     pass
 
@@ -41,15 +42,40 @@ class Queue:
     def is_empty(self):
         return not self._queue
 
-    def add(self, *args):
-        self._queue.extend(args)
-
     @property
     def first_track(self):
         if not self._queue:
             raise QueueIsEmpty
 
         return self._queue[0]
+
+    @property
+    def current_track(self):
+        if not self._queue:
+            raise QueueIsEmpty
+
+        return self._queue[self.position]
+
+    @property
+    def upcoming(self):
+        if not self._queue:
+            raise QueueIsEmpty
+
+        return self._queue[self.position + 1:]
+
+    @property
+    def history(self):
+        if not self._queue:
+            raise QueueIsEmpty
+
+        return self._queue[:self.position]
+
+    @property
+    def length(self):
+        return len(self._queue)
+
+    def add(self, *args):
+        self._queue.extend(args)
 
     def get_next_track(self):
         if not self._queue:
@@ -61,6 +87,9 @@ class Queue:
             return None
 
         return self._queue[self.position]
+
+    def empty(self):
+        self._queue.clear()
 
 
 class Player(wavelink.Player):
@@ -234,6 +263,36 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
                 query = f"ytsearch:{query}"
 
             await player.add_tracks(ctx, await self.wavelink.get_tracks(query))
+
+    @commands.command(name="queue")
+    async def queue_command(self, ctx, show: t.Optional[int] = 10):
+        player = self.get_player(ctx)
+
+        if player.queue.is_empty:
+            raise QueueIsEmpty
+
+        embed = discord.Embed(
+            title="Queue",
+            description=f"Showing up to next {show} tracks",
+            colour=ctx.author.colour,
+            timestamp=dt.datetime.utcnow()
+        )
+        embed.set_author(name="Query Results")
+        embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
+        embed.add_field(name="Currently playing", value=player.queue.current_track.title, inline=False)
+        if upcoming := player.queue.upcoming:
+            embed.add_field(
+                name="Next up",
+                value="\n".join(t.title for t in upcoming[:show]),
+                inline=False
+            )
+
+        msg = await ctx.send(embed=embed)
+
+    @queue_command.error
+    async def queue_command_error(self, ctx, exc):
+        if isinstance(exc, QueueIsEmpty):
+            await ctx.send("The queue is currently empty.")
 
 
 def setup(bot):
