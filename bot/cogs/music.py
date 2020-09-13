@@ -359,7 +359,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         )
         embed.set_author(name="Query Results")
         embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar_url)
-        embed.add_field(name="Currently playing", value=player.queue.current_track.title, inline=False)
+        embed.add_field(name="Currently playing", value=player.queue.current_track, inline=False)
         if upcoming := player.queue.upcoming:
             embed.add_field(
                 name="Next up",
