@@ -1,5 +1,6 @@
 # Building a discord.py music bot
 This repository contains all the code for the bot constructed over the course of my series "Building a discord.py music bot (2020)", which can be found here: https://youtube.com/playlist?list=PLYeOw6sTSy6ZIfraPiUsJWuxjqoL47U3u.
+I(11Tuvork28) made some changes so the bot works on multiple servers at the same time
 
 ## Installation of required components
 ### You will need:
