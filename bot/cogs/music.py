@@ -193,6 +193,15 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         self.bot = bot
         self.wavelink = wavelink.Client(bot=bot)
         self.bot.loop.create_task(self.start_nodes())
+        self.states = {}
+        
+    def get_state(self, ctx):
+    """Gets the state for `guild`, creating it if it does not exist."""
+    if ctx.guild.id in self.states:
+        return self.states[ctx.guild.id]
+    else:
+        self.states[ctx.guild.id] = self.wavelink.get_player(ctx.guild.id, cls=Player, context=ctx)
+        return self.states[ctx.guild.id]
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
@@ -242,7 +251,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
     @commands.command(name="connect", aliases=["join"])
     async def connect_command(self, ctx, *, channel: t.Optional[discord.VoiceChannel]):
-        player = self.get_player(ctx)
+        player = self.get_state(ctx)
         channel = await player.connect(ctx, channel)
         await ctx.send(f"Connected to {channel.name}.")
 
@@ -255,13 +264,13 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
     @commands.command(name="disconnect", aliases=["leave"])
     async def disconnect_command(self, ctx):
-        player = self.get_player(ctx)
+        player = self.get_state(ctx)
         await player.teardown()
         await ctx.send("Disconnect.")
 
     @commands.command(name="play")
     async def play_command(self, ctx, *, query: t.Optional[str]):
-        player = self.get_player(ctx)
+        player = self.get_state(ctx)
 
         if not player.is_connected:
             await player.connect(ctx)
@@ -289,7 +298,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
     @commands.command(name="pause")
     async def pause_command(self, ctx):
-        player = self.get_player(ctx)
+        player = self.get_state(ctx)
 
         if player.is_paused:
             raise PlayerIsAlreadyPaused
@@ -304,14 +313,14 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
     @commands.command(name="stop")
     async def stop_command(self, ctx):
-        player = self.get_player(ctx)
+        player = self.get_state(ctx)
         player.queue.empty()
         await player.stop()
         await ctx.send("Playback stopped.")
 
     @commands.command(name="next", aliases=["skip"])
     async def next_command(self, ctx):
-        player = self.get_player(ctx)
+        player = self.get_state(ctx)
 
         if not player.queue.upcoming:
             raise NoMoreTracks
@@ -328,8 +337,8 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
     @commands.command(name="previous")
     async def previous_command(self, ctx):
-        player = self.get_player(ctx)
-
+        player = self.get_state(ctx)
+        
         if not player.queue.history:
             raise NoPreviousTracks
 
@@ -346,7 +355,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
     @commands.command(name="queue")
     async def queue_command(self, ctx, show: t.Optional[int] = 10):
-        player = self.get_player(ctx)
+        player = self.get_state(ctx)
 
         if player.queue.is_empty:
             raise QueueIsEmpty
