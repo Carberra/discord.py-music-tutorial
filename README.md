@@ -1,25 +1,40 @@
-# Building a discord.py music bot
-This repository contains all the code for the bot constructed over the course of my series "Building a discord.py music bot (2020)", which can be found here: https://youtube.com/playlist?list=PLYeOw6sTSy6ZIfraPiUsJWuxjqoL47U3u.
+# Building a discord.py music bot (2020)
 
-**Note:** While the series is running, the episode-by-episode updates will be pushed to [this branch](https://github.com/Carberra/discord.py-music-tutorial/tree/live-releases) instead. They will be merged into master once the series is complete.
+Welcome to the official GitHub repository for the [Building a discord.py music bot (2020)](https://www.youtube.com/playlist?list=PLYeOw6sTSy6ZIfraPiUsJWuxjqoL47U3u) series by [Carberra Tutorials](https://youtube.carberra.xyz)!
 
-## Installation of required components
-### You will need:
-- Python 3.8.0 or greater;
-- `discord.py[voice]` 1.3.4 or greater;
-- `wavelink` 0.9.4 or greater.
+This repository is designed purely as a supplementary aid to the series, and should **NOT** be downloaded without having watched it first.
 
-### To install Python:
-Download the latest version from here: https://www.python.org/downloads/.
+## Prerequisites
 
-### Pip installs:
-#### On Unix based systems:
-`python3.x -m pip install discord.py[voice] wavelink` (replace "x" with your subversion).
-#### On Windows:
-`pip install discord.py[voice] wavelink`, or `py -m pip install discord.py[voice] wavelink`
+### Version table
 
-## Notes
-Feel free to fork this repository and make changes as you please, but do not distribute it beyond what is stated in the copyright information in the `LICENSE` file. The code in this repository is designed to be taken as a guide.
+**Note:** Voice functionality is not available on Python 3.9 (correct as of 13/02/2021).
 
-## Help
-For help and enquiries, join the Carberra Discord server: https://discord.carberra.xyz.
+|                       | Minimum | Used in series |
+| --------------------- | ------- | -------------- |
+| **Python**            | 3.5.0   | 3.8.2          |
+| **discord.py[voice]** | 1.5.0   | 1.3.4 - 1.5.0  |
+| **wavelink**          | Unknown | 0.9.4          |
+
+### Installing required libraries
+
+To install the necessary libraries, run one of the the following commands:
+
+```bash
+# Windows
+py -3.8 -m pip install discord.py[voice] wavelink
+
+# Linux/macOS
+python3.8 -m pip install discord.py[voice] wavelink
+
+# In a virtual environment
+pip install discord.py[voice] wavelink
+```
+
+## License
+
+This repository is made available via the [BSD 3-Clause License](https://github.com/Carberra/discord.py-music-tutorial/blob/master/LICENSE).
+
+## Help and further information
+
+If you need help using this repository, [watch the series](https://www.youtube.com/playlist?list=PLYeOw6sTSy6ZIfraPiUsJWuxjqoL47U3u). If you still need help beyond that, [join the Carberra Tutorials Discord server](https://discord.carberra.xyz).
