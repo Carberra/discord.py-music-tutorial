@@ -4,17 +4,19 @@ Welcome to the official GitHub repository for the [Building a discord.py music b
 
 This repository is designed purely as a supplementary aid to the series, and should **NOT** be downloaded without having watched it first.
 
+You can [browse the tags](https://github.com/Carberra/discord.py-music-tutorial/releases) to view the code as it was after a specific episode.
+
 ## Prerequisites
 
 ### Version table
 
-**Note:** Voice functionality is not available on Python 3.9 (correct as of 13/02/2021).
+|                       | Required          | Used in series |
+| --------------------- | ----------------- | -------------- |
+| **Python**            | >= 3.5.0, < 3.9.0 | 3.8.2          |
+| **discord.py[voice]** | >= 1.5.0          | 1.5.0*         |
+| **wavelink**          | Unknown           | 0.9.4          |
 
-|                       | Minimum | Used in series |
-| --------------------- | ------- | -------------- |
-| **Python**            | 3.5.0   | 3.8.2          |
-| **discord.py[voice]** | 1.5.0   | 1.3.4 - 1.5.0  |
-| **wavelink**          | Unknown | 0.9.4          |
+*Version 1.4.0 was used mainly in the series, but breaking changes after the series was released forced the use of 1.5.0 in some episodes.
 
 ### Installing required libraries
 
