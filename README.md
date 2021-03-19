@@ -10,13 +10,13 @@ You can [browse the tags](https://github.com/Carberra/discord.py-music-tutorial/
 
 ### Version table
 
-|                       | Required          | Used in series |
-| --------------------- | ----------------- | -------------- |
-| **Python**            | >= 3.5.0, < 3.9.0 | 3.8.2          |
-| **discord.py[voice]** | >= 1.5.0          | 1.5.0*         |
-| **wavelink**          | Unknown           | 0.9.4          |
+|                       | Required | Used in series |
+| --------------------- | -------- | -------------- |
+| **Python**            | >= 3.5.0 | 3.9.2*         |
+| **discord.py[voice]** | >= 1.5.0 | 1.6.0*         |
+| **wavelink**          | Unknown  | 0.9.9*         |
 
-*Version 1.4.0 was used mainly in the series, but breaking changes after the series was released forced the use of 1.5.0 in some episodes.
+*This is the latest of multiple versions used.
 
 ### Installing required libraries
 
