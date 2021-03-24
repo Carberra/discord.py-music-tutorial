@@ -14,7 +14,7 @@ You can [browse the tags](https://github.com/Carberra/discord.py-music-tutorial/
 | --------------------- | -------- | -------------- |
 | **Python**            | >= 3.5.0 | 3.9.2*         |
 | **discord.py[voice]** | >= 1.5.0 | 1.6.0*         |
-| **wavelink**          | Unknown  | 0.9.9*         |
+| **wavelink**          | >= 0.9.0 | 0.9.9*         |
 
 *This is the latest of multiple versions used.
 
@@ -24,14 +24,20 @@ To install the necessary libraries, run one of the the following commands:
 
 ```bash
 # Windows
-py -3.8 -m pip install discord.py[voice] wavelink
+py -3.9 -m pip install discord.py[voice] wavelink
 
 # Linux/macOS
-python3.8 -m pip install discord.py[voice] wavelink
+python3.9 -m pip install discord.py[voice] wavelink
 
 # In a virtual environment
 pip install discord.py[voice] wavelink
 ```
+
+You will also need:
+
+- [OpenJDK 13.0.2](https://jdk.java.net/archive/) (make sure to download the right one for your OS)
+- The latest version of [Lavalink](https://ci.fredboat.com/viewLog.html?buildId=lastSuccessful&buildTypeId=Lavalink_Build&tab=artifacts&guest=1) (in the videos I said 1071, but this version no longer works)
+- An [application.yml](https://github.com/Frederikam/Lavalink/blob/master/LavalinkServer/application.yml.example) file, with the host set to 127.0.0.1
 
 ## License
 
