@@ -293,7 +293,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
     async def disconnect_command(self, ctx):
         player = self.get_player(ctx)
         await player.teardown()
-        await ctx.send("Disconnect.")
+        await ctx.send("Disconnected.")
 
     @commands.command(name="play")
     async def play_command(self, ctx, *, query: t.Optional[str]):
