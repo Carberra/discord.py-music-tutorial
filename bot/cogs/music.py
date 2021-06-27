@@ -5,11 +5,13 @@ import re
 import typing as t
 from enum import Enum
 
+import aiohttp
 import discord
 import wavelink
 from discord.ext import commands
 
 URL_REGEX = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+LYRICS_URL = "https://some-random-api.ml/lyrics?title="
 OPTIONS = {
     "1️⃣": 0,
     "2⃣": 1,
@@ -64,6 +66,10 @@ class MaxVolume(commands.CommandError):
 
 
 class MinVolume(commands.CommandError):
+    pass
+
+
+class NoLyricsFound(commands.CommandError):
     pass
 
 
@@ -501,6 +507,36 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
     async def volume_down_command_error(self, ctx, exc):
         if isinstance(exc, MinVolume):
             await ctx.send("The player is already at min volume.")
+
+    @commands.command(name="lyrics")
+    async def lyrics_command(self, ctx, name: t.Optional[str]):
+        player = self.get_player(ctx)
+        name = name or player.queue.current_track.title
+
+        async with ctx.typing():
+            async with aiohttp.request("GET", LYRICS_URL + name, headers={}) as r:
+                if not 200 <= r.status <= 299:
+                    raise NoLyricsFound
+
+                data = await r.json()
+
+                if len(data["lyrics"]) > 2000:
+                    return await ctx.send(f"<{data['links']['genius']}>")
+
+                embed = discord.Embed(
+                    title=data["title"],
+                    description=data["lyrics"],
+                    colour=ctx.author.colour,
+                    timestamp=dt.datetime.utcnow(),
+                )
+                embed.set_thumbnail(url=data["thumbnail"]["genius"])
+                embed.set_author(name=data["author"])
+                await ctx.send(embed=embed)
+
+    @lyrics_command.error
+    async def lyrics_command_error(self, ctx, exc):
+        if isinstance(exc, NoLyricsFound):
+            await ctx.send("No lyrics could be found.")
 
 
 def setup(bot):
