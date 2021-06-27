@@ -51,6 +51,22 @@ class InvalidRepeatMode(commands.CommandError):
     pass
 
 
+class VolumeTooLow(commands.CommandError):
+    pass
+
+
+class VolumeTooHigh(commands.CommandError):
+    pass
+
+
+class MaxVolume(commands.CommandError):
+    pass
+
+
+class MinVolume(commands.CommandError):
+    pass
+
+
 class RepeatMode(Enum):
     NONE = 0
     ONE = 1
@@ -433,6 +449,58 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
     async def queue_command_error(self, ctx, exc):
         if isinstance(exc, QueueIsEmpty):
             await ctx.send("The queue is currently empty.")
+
+    # Requests -----------------------------------------------------------------
+
+    @commands.group(name="volume", invoke_without_command=True)
+    async def volume_group(self, ctx, volume: int):
+        player = self.get_player(ctx)
+
+        if volume < 0:
+            raise VolumeTooLow
+
+        if volume > 150:
+            raise VolumeTooHigh
+
+        await player.set_volume(volume)
+        await ctx.send(f"Volume set to {volume:,}%")
+
+    @volume_group.error
+    async def volume_group_error(self, ctx, exc):
+        if isinstance(exc, VolumeTooLow):
+            await ctx.send("The volume must be 0% or above.")
+        elif isinstance(exc, VolumeTooHigh):
+            await ctx.send("The volume must be 150% or below.")
+
+    @volume_group.command(name="up")
+    async def volume_up_command(self, ctx):
+        player = self.get_player(ctx)
+
+        if player.volume == 150:
+            raise MaxVolume
+
+        await player.set_volume(value := min(player.volume + 10, 150))
+        await ctx.send(f"Volume set to {value:,}%")
+
+    @volume_up_command.error
+    async def volume_up_command_error(self, ctx, exc):
+        if isinstance(exc, MaxVolume):
+            await ctx.send("The player is already at max volume.")
+
+    @volume_group.command(name="down")
+    async def volume_down_command(self, ctx):
+        player = self.get_player(ctx)
+
+        if player.volume == 0:
+            raise MinVolume
+
+        await player.set_volume(value := max(0, player.volume - 10))
+        await ctx.send(f"Volume set to {value:,}%")
+
+    @volume_down_command.error
+    async def volume_down_command_error(self, ctx, exc):
+        if isinstance(exc, MinVolume):
+            await ctx.send("The player is already at min volume.")
 
 
 def setup(bot):
