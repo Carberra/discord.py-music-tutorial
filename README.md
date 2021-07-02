@@ -6,38 +6,9 @@ This repository is designed purely as a supplementary aid to the series, and sho
 
 You can [browse the tags](https://github.com/Carberra/discord.py-music-tutorial/releases) to view the code as it was after a specific episode.
 
-## Prerequisites
+## Series requirements
 
-### Version table
-
-|                       | Required | Used in series |
-| --------------------- | -------- | -------------- |
-| **Python**            | >= 3.5.0 | 3.9.2*         |
-| **discord.py[voice]** | >= 1.5.0 | 1.6.0*         |
-| **wavelink**          | >= 0.9.0 | 0.9.9*         |
-
-*This is the latest of multiple versions used.
-
-### Installing required libraries
-
-To install the necessary libraries, run one of the the following commands:
-
-```bash
-# Windows
-py -3.9 -m pip install discord.py[voice] wavelink
-
-# Linux/macOS
-python3.9 -m pip install discord.py[voice] wavelink
-
-# In a virtual environment
-pip install discord.py[voice] wavelink
-```
-
-You will also need:
-
-- [OpenJDK 13.0.2](https://jdk.java.net/archive/) (make sure to download the right one for your OS)
-- The latest version of [Lavalink](https://ci.fredboat.com/viewLog.html?buildId=lastSuccessful&buildTypeId=Lavalink_Build&tab=artifacts&guest=1) (in the videos I said 1071, but this version no longer works)
-- An [application.yml](https://github.com/Frederikam/Lavalink/blob/master/LavalinkServer/application.yml.example) file, with the host set to 127.0.0.1
+A [separate webpage](https://files.carberra.xyz/requirements/discord-music-2020) has been created to outline all the required programs and libraries. You can also watch the [introduction video](https://www.youtube.com/watch?v=tZPrkKT9QHc&list=PLYeOw6sTSy6ZIfraPiUsJWuxjqoL47U3u&index=1) for an installation walkthrough.
 
 ## License
 
