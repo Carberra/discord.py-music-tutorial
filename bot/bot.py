@@ -44,11 +44,11 @@ class MusicBot(commands.Bot):
     async def on_disconnect(self):
         print("Bot disconnected.")
 
-    # async def on_error(self, err, *args, **kwargs):
-    #     raise
+    async def on_error(self, err, *args, **kwargs):
+        raise
 
-    # async def on_command_error(self, ctx, exc):
-    #     raise getattr(exc, "original", exc)
+    async def on_command_error(self, ctx, exc):
+        raise getattr(exc, "original", exc)
 
     async def on_ready(self):
         self.client_id = (await self.application_info()).id
